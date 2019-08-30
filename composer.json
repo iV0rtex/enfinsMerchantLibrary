@@ -15,7 +15,6 @@
         "ext-json": "*"
     },
     "autoload": {
-        "minimum-stability": "dev",
         "psr-4": {
             "Enfins\\": "src/"
         }
