@@ -1,0 +1,23 @@
+{
+    "name": "enfins/api_client",
+    "description": "Merchant client library",
+    "type": "library",
+    "authors": [
+        {
+            "name": "hulko.s",
+            "email": "hulko.s@enfins.com"
+        }
+    ],
+    "require": {
+        "netresearch/jsonmapper": "^1.6",
+        "khr/php-mcurl-client": "^3.1",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "minimum-stability": "dev",
+        "psr-4": {
+            "Enfins\\": "src/"
+        }
+    }
+}
