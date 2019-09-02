@@ -22,6 +22,14 @@ use Exception;
 interface ApiClientInterface
 {
     /**
+     * @param string $ident
+     * @param string $secret_key
+     * @param string $api_host
+     * @return void
+     */
+    public function __construct($ident,$secret_key,$api_host);
+
+    /**
      * @return void
      */
     public function enableDebugMode();
