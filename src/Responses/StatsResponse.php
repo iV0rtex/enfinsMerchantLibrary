@@ -6,7 +6,7 @@
  * Time: 12:23 PM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
 class StatsResponse

@@ -6,7 +6,7 @@
  * Time: 11:20 AM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
 class PayoutResponse

@@ -3,30 +3,31 @@
  * Created by PhpStorm.
  * User: s.hulko
  * Date: 8/30/19
- * Time: 11:09 AM
+ * Time: 12:34 PM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
-class BillResponse
+class OperationResponse
 {
     /** @var string */
     public $amount;
     /** @var integer */
+    public $bill_id;
+    /** @var integer */
     public $created_at;
     /** @var string */
     public $currency;
-    /** @var string */
-    public $description;
     /** @var integer */
-    public $expire_at;
-    /** @var integer */
-    public $id;
+    public $order_id;
+    /** @var RecipientResponse */
+    public $recipient;
+    /** @var SenderResponse */
+    public $sender;
     /** @var string */
     public $status;
-    /** @var string */
-    public $m_order;
     /** @var boolean */
     public $testing;
+
 }

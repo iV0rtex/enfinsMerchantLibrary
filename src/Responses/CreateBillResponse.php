@@ -6,7 +6,7 @@
  * Time: 1:11 PM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
 class CreateBillResponse

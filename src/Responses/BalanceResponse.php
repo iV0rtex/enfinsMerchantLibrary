@@ -6,7 +6,7 @@
  * Time: 11:34 AM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
 class BalanceResponse

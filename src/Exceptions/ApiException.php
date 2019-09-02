@@ -6,7 +6,7 @@
  * Time: 1:25 PM
  */
 
-namespace Enfins;
+namespace Enfins\Exceptions;
 
 
 use Error;

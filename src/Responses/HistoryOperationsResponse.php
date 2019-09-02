@@ -6,7 +6,7 @@
  * Time: 12:28 PM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
 class HistoryOperationsResponse

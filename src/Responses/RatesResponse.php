@@ -6,7 +6,7 @@
  * Time: 11:41 AM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
 class RatesResponse

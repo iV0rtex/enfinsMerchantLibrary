@@ -3,16 +3,17 @@
  * Created by PhpStorm.
  * User: s.hulko
  * Date: 8/30/19
- * Time: 12:40 PM
+ * Time: 12:38 PM
  */
 
-namespace Enfins\responses;
+namespace Enfins\Responses;
 
 
-class SenderResponse
+class RecipientResponse
 {
     /** @var string */
     public $account;
     /** @var string */
     public $name;
+
 }

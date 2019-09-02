@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: admin
+ * User: s.hulko
  * Date: 9/2/19
  * Time: 12:36 PM
  */
@@ -9,13 +9,14 @@
 namespace Enfins;
 
 
-use Enfins\responses\BalanceResponse;
-use Enfins\responses\BillResponse;
-use Enfins\responses\CreateBillResponse;
-use Enfins\responses\HistoryOperationsResponse;
-use Enfins\responses\PayoutResponse;
-use Enfins\responses\RatesResponse;
-use Enfins\responses\StatisticResponse;
+use Enfins\Exceptions\ApiException;
+use Enfins\Responses\BalanceResponse;
+use Enfins\Responses\BillResponse;
+use Enfins\Responses\CreateBillResponse;
+use Enfins\Responses\HistoryOperationsResponse;
+use Enfins\Responses\PayoutResponse;
+use Enfins\Responses\RatesResponse;
+use Enfins\Responses\StatisticResponse;
 use Exception;
 
 interface ApiClientInterface
