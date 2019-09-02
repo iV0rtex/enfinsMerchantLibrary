@@ -37,24 +37,38 @@ class ApiClient
     /**
      * @param string $ident
      * @param string $secret_key
-     * @param bool $debug_mode
+     * @param string $api_host
+     * @return void
      */
-    function __construct($ident,$secret_key,$debug_mode = false) {
+    function __construct($ident,$secret_key,$api_host) {
         $this->ident = $ident;
         $this->secret_key = $secret_key;
         $this->jsonMapper = new JsonMapper();
-        $this->api_host = 'https://qa.enfins.com:9000/v1';
-        $this->debug_mode = $debug_mode;
+        $this->api_host = $api_host;
+        $this->debug_mode = false;
     }
 
     /**
-     * @param $currency
-     * @param $amount
-     * @param $m_order
-     * @param $description
+     * @return void
+     */
+    public function enableDebugMode(){
+        $this->debug_mode = true;
+    }
+
+    /**
+     * @return void
+     */
+    public function disableDebugMode(){
+        $this->debug_mode = false;
+    }
+
+    /**
+     * @param string $currency
+     * @param float $amount
+     * @param string $m_order
+     * @param string $description
      * @param array $additional_params (optional)
      * @return object|CreateBillResponse
-     * @throws JsonMapper_Exception
      * @throws ApiException
      * @throws Exception
      */
@@ -65,15 +79,15 @@ class ApiClient
         $qb->addParam("m_order", $m_order, true);
         $qb->addParam("description", $description, true);
         $qb->addParam("payer_id",isset($additional_params['payer_id'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("success_url", isset($additional_params['success_url'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("fail_url", isset($additional_params['fail_url'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("status_url", isset($additional_params['status_url'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("m_name", isset($additional_params['m_name'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("expire_ttl", isset($additional_params['expire_ttl'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("convert_to", isset($additional_params['convert_to'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("extra", isset($additional_params['extra'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("testing", isset($additional_params['testing'])?$additional_params['payer_id']:null, false);
-        $qb->addParam("p_method", isset($additional_params['p_method'])?$additional_params['payer_id']:null, false);
+        $qb->addParam("success_url", isset($additional_params['success_url'])?$additional_params['success_url']:null, false);
+        $qb->addParam("fail_url", isset($additional_params['fail_url'])?$additional_params['fail_url']:null, false);
+        $qb->addParam("status_url", isset($additional_params['status_url'])?$additional_params['status_url']:null, false);
+        $qb->addParam("m_name", isset($additional_params['m_name'])?$additional_params['m_name']:null, false);
+        $qb->addParam("expire_ttl", isset($additional_params['expire_ttl'])?$additional_params['expire_ttl']:null, false);
+        $qb->addParam("convert_to", isset($additional_params['convert_to'])?$additional_params['convert_to']:null, false);
+        $qb->addParam("extra", isset($additional_params['extra'])?$additional_params['extra']:null, false);
+        $qb->addParam("testing", isset($additional_params['testing'])?$additional_params['testing']:null, false);
+        $qb->addParam("p_method", isset($additional_params['p_method'])?$additional_params['p_method']:null, false);
         return $this->jsonMapper->map($this->postRequestData($qb),new CreateBillResponse());
     }
 
@@ -81,7 +95,6 @@ class ApiClient
      * @param integer $bill_id
      * @return object|BillResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function findByBillId($bill_id){
@@ -94,7 +107,6 @@ class ApiClient
      * @param string $m_order
      * @return object|BillResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function findByMOrder($m_order){
@@ -107,12 +119,11 @@ class ApiClient
      * @param string $m_order
      * @param string $account
      * @param string $currency
-     * @param string $amount
+     * @param float $amount
      * @param string $description
      * @param array $additional_params (optional)
      * @return object|PayoutResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function payout($m_order,$account,$currency,$amount,$description,$additional_params=[]){
@@ -130,13 +141,12 @@ class ApiClient
     /**
      * @param string $m_order
      * @param string $currency
-     * @param string $amount
+     * @param float $amount
      * @param string $card_number
      * @param string $description
      * @param array $additional_params (optional)
      * @return object|PayoutResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function payoutCard($m_order,$currency,$amount,$card_number,$description,$additional_params=[]){
@@ -154,13 +164,12 @@ class ApiClient
     /**
      * @param string $m_order
      * @param string $currency
-     * @param string $amount
+     * @param float $amount
      * @param string $address
      * @param string $description
      * @param array $additional_params (optional)
      * @return object|PayoutResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function payoutCrypto($m_order,$currency,$amount,$address,$description,$additional_params=[]){
@@ -177,7 +186,6 @@ class ApiClient
     /**
      * @return object|BalanceResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      */
     public function balance(){
         $qb = new QueryBuilder("balance", $this->api_host, $this->ident,$this->secret_key,"GET");
@@ -187,10 +195,9 @@ class ApiClient
     /**
      * @param string $from
      * @param string $to
-     * @param integer $amount
+     * @param float $amount
      * @return object|RatesResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function ratesByAmount($from,$to,$amount){
@@ -204,10 +211,9 @@ class ApiClient
     /**
      * @param string $from
      * @param string $to
-     * @param integer $receive_amount
+     * @param float $receive_amount
      * @return object|RatesResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function ratesByReceiveAmount($from,$to,$receive_amount){
@@ -222,7 +228,6 @@ class ApiClient
      * @param array $additional_params (optional)
      * @return object|StatisticResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function stats($additional_params=[]){
@@ -239,7 +244,6 @@ class ApiClient
      * @param array $additional_params (optional)
      * @return object|HistoryOperationsResponse
      * @throws ApiException
-     * @throws JsonMapper_Exception
      * @throws Exception
      */
     public function history($additional_params=[]){

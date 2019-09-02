@@ -15,7 +15,6 @@ class ApiException extends \Exception
 {
     protected $body;
     private $innerMsg;
-    private $apiErrors;
 
     /**
      * @param string $message
@@ -34,6 +33,13 @@ class ApiException extends \Exception
     }
 
     /**
+     * @return mixed
+     */
+    public function getBody() {
+        return $this->body;
+    }
+
+    /**
      * @param $msg
      * @return
      */
@@ -47,39 +53,6 @@ class ApiException extends \Exception
      */
     public function innerMsgAdd($msg) {
         $this->innerMsg[] = $msg;
-    }
-
-    public function getHtmlErrorMessage() {
-        $adtMsg = "";
-        if ($this->innerMsg) {
-            $adtMsg = '<span style="display:none">';
-            foreach ($this->innerMsg as $val) {
-                $adtMsg .= $val."\n";
-            }
-            $adtMsg .= '</span>';
-        }
-        return $this->getMessage().$adtMsg;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBody() {
-        return $this->body;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getApiErrors() {
-        return $this->apiErrors;
-    }
-
-    /**
-     * @param mixed $apiErrors
-     */
-    public function setApiErrors($apiErrors) {
-        $this->apiErrors = $apiErrors;
     }
 
     /**
