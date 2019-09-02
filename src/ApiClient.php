@@ -17,11 +17,10 @@ use Enfins\responses\RatesResponse;
 use Enfins\responses\StatisticResponse;
 use Exception;
 use JsonMapper;
-use JsonMapper_Exception;
 use MCurl\Client;
 use MCurl\Result;
 
-class ApiClient
+class ApiClient implements ApiClientInterface
 {
     /** @var \JsonMapper */
     private $jsonMapper;
