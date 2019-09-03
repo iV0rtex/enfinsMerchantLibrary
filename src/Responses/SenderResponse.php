@@ -1,7 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: s.hulko
+ * Author: s.hulko
  * Date: 8/30/19
  * Time: 12:40 PM
  */
