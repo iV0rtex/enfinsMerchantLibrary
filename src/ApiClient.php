@@ -9,14 +9,12 @@
 namespace Enfins;
 
 use Enfins\Exceptions\ApiException;
-use Enfins\Responses\BalanceResponse;
 use Enfins\Responses\BillResponse;
 use Enfins\Responses\CreateBillResponse;
 use Enfins\Responses\HistoryOperationsResponse;
 use Enfins\Responses\PayoutResponse;
 use Enfins\Responses\RatesResponse;
 use Enfins\Responses\StatisticResponse;
-use Exception;
 use JsonMapper;
 use MCurl\Client;
 use MCurl\Result;
@@ -34,13 +32,7 @@ class ApiClient implements ApiClientInterface
     /** @var boolean */
     private $debug_mode;
 
-    /**
-     * @param string $ident
-     * @param string $secret_key
-     * @param string $api_host
-     * @return void
-     */
-    function __construct($ident,$secret_key,$api_host) {
+    public function __construct($ident,$secret_key,$api_host){
         $this->ident = $ident;
         $this->secret_key = $secret_key;
         $this->jsonMapper = new JsonMapper();
@@ -48,30 +40,14 @@ class ApiClient implements ApiClientInterface
         $this->debug_mode = false;
     }
 
-    /**
-     * @return void
-     */
     public function enableDebugMode(){
         $this->debug_mode = true;
     }
 
-    /**
-     * @return void
-     */
     public function disableDebugMode(){
         $this->debug_mode = false;
     }
 
-    /**
-     * @param string $currency
-     * @param float $amount
-     * @param string $m_order
-     * @param string $description
-     * @param array $additional_params (optional)
-     * @return object|CreateBillResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function createBill($currency,$amount,$m_order,$description,$additional_params=[]){
         $qb = new QueryBuilder("create_bill", $this->api_host, $this->ident,$this->secret_key,"POST");
         $qb->addParam("currency", $currency, true);
@@ -91,41 +67,18 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new CreateBillResponse());
     }
 
-    /**
-     * @param integer $bill_id
-     * @return object|BillResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function findByBillId($bill_id){
         $qb = new QueryBuilder("find/by_bill_id", $this->api_host, $this->ident,$this->secret_key,"GET");
         $qb->addParam("bill_id", $bill_id, true);
         return $this->jsonMapper->map($this->postRequestData($qb),new BillResponse());
     }
 
-    /**
-     * @param string $m_order
-     * @return object|BillResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function findByMOrder($m_order){
         $qb = new QueryBuilder("find/by_m_order", $this->api_host, $this->ident,$this->secret_key,"GET");
         $qb->addParam("m_order", $m_order, true);
         return $this->jsonMapper->map($this->postRequestData($qb),new BillResponse());
     }
 
-    /**
-     * @param string $m_order
-     * @param string $account
-     * @param string $currency
-     * @param float $amount
-     * @param string $description
-     * @param array $additional_params (optional)
-     * @return object|PayoutResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function payout($m_order,$account,$currency,$amount,$description,$additional_params=[]){
         $qb = new QueryBuilder("payout", $this->api_host, $this->ident,$this->secret_key,"POST");
         $qb->addParam("m_order", $m_order, true);
@@ -138,17 +91,6 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new PayoutResponse());
     }
 
-    /**
-     * @param string $m_order
-     * @param string $currency
-     * @param float $amount
-     * @param string $card_number
-     * @param string $description
-     * @param array $additional_params (optional)
-     * @return object|PayoutResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function payoutCard($m_order,$currency,$amount,$card_number,$description,$additional_params=[]){
         $qb = new QueryBuilder("payout_card", $this->api_host, $this->ident,$this->secret_key,"POST");
         $qb->addParam("m_order", $m_order, true);
@@ -161,17 +103,6 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new PayoutResponse());
     }
 
-    /**
-     * @param string $m_order
-     * @param string $currency
-     * @param float $amount
-     * @param string $address
-     * @param string $description
-     * @param array $additional_params (optional)
-     * @return object|PayoutResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function payoutCrypto($m_order,$currency,$amount,$address,$description,$additional_params=[]){
         $qb = new QueryBuilder("payout_crypto", $this->api_host, $this->ident,$this->secret_key,"POST");
         $qb->addParam("m_order", $m_order, true);
@@ -183,23 +114,26 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new PayoutResponse());
     }
 
-    /**
-     * @return object|BalanceResponse
-     * @throws ApiException
-     */
     public function balance(){
         $qb = new QueryBuilder("balance", $this->api_host, $this->ident,$this->secret_key,"GET");
         return $this->jsonMapper->mapArray($this->postRequestData($qb),[],"Enfins\\responses\\BalanceResponse");
     }
 
-    /**
-     * @param string $from
-     * @param string $to
-     * @param float $amount
-     * @return object|RatesResponse
-     * @throws ApiException
-     * @throws Exception
-     */
+    public function rates($from, $to, $amount = null, $receive_amount = null)
+    {
+        $qb = new QueryBuilder("rates", $this->api_host, $this->ident,$this->secret_key,"GET");
+        $qb->addParam("from", $from, true);
+        $qb->addParam("to", $to, true);
+        if(!is_null($amount)){
+            $qb->addParam("amount", $amount, true);
+        }else if(!is_null($receive_amount)){
+            $qb->addParam("receive_amount", $receive_amount, true);
+        }else{
+            throw new \Exception("Parameter \"amount\" or \"receive_amount\" must be valid.");
+        }
+        return $this->jsonMapper->map($this->postRequestData($qb),new RatesResponse());
+    }
+
     public function ratesByAmount($from,$to,$amount){
         $qb = new QueryBuilder("rates", $this->api_host, $this->ident,$this->secret_key,"GET");
         $qb->addParam("from", $from, true);
@@ -208,14 +142,6 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new RatesResponse());
     }
 
-    /**
-     * @param string $from
-     * @param string $to
-     * @param float $receive_amount
-     * @return object|RatesResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function ratesByReceiveAmount($from,$to,$receive_amount){
         $qb = new QueryBuilder("rates", $this->api_host, $this->ident,$this->secret_key,"GET");
         $qb->addParam("from", $from, true);
@@ -224,12 +150,6 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new RatesResponse());
     }
 
-    /**
-     * @param array $additional_params (optional)
-     * @return object|StatisticResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function stats($additional_params=[]){
         $qb = new QueryBuilder("stats", $this->api_host, $this->ident,$this->secret_key,"GET");
         $qb->addParam("currency", isset($additional_params['currency'])?$additional_params['currency']:null, false);
@@ -240,12 +160,6 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new StatisticResponse());
     }
 
-    /**
-     * @param array $additional_params (optional)
-     * @return object|HistoryOperationsResponse
-     * @throws ApiException
-     * @throws Exception
-     */
     public function history($additional_params=[]){
         $qb = new QueryBuilder("stats", $this->api_host, $this->ident,$this->secret_key,"GET");
         $qb->addParam("begin", isset($additional_params['begin'])?$additional_params['begin']:null, false);
@@ -258,11 +172,6 @@ class ApiClient implements ApiClientInterface
         return $this->jsonMapper->map($this->postRequestData($qb),new HistoryOperationsResponse());
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @return mixed
-     * @throws ApiException
-     */
     private function postRequestData(QueryBuilder $qb) {
         $curlOptions = [CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT']];
         $curlOptions[CURLINFO_HEADER_OUT] = true;
@@ -327,10 +236,6 @@ class ApiClient implements ApiClientInterface
         }
     }
 
-    /**
-     * @param Result $curlResult
-     * @return void
-     */
     private function appendHeaderRequestId(Result $curlResult) {
         if (!headers_sent() && error_get_last() == NULL) {
             $request_id = $this->getRequestId($curlResult);
@@ -338,10 +243,6 @@ class ApiClient implements ApiClientInterface
         }
     }
 
-    /**
-     * @param Result $curlResult
-     * @return string
-     */
     private function getRequestId(Result $curlResult) {
         $headersResult = $curlResult->getHeaders();
         $request_id = isset($headersResult['request_id']) ? $headersResult['request_id'] : null;
