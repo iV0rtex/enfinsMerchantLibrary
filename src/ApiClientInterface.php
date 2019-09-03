@@ -57,7 +57,7 @@ interface ApiClientInterface
      * @param string $description Details for user about bill
      * @param array $additional_params (optional) Additional params of a bill.
      * Keys list: payer_id,success_url,fail_url,status_url,m_name,expire_ttl,convert_to,extra,testing,p_method
-     * More details on the link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_create_bill
+     * @see More details on the @link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_create_bill
      * @return object|CreateBillResponse
      * @throws ApiException
      * @throws Exception
@@ -98,7 +98,7 @@ interface ApiClientInterface
      * @param string $description Details for user about bill
      * @param array $additional_params (optional)
      * Keys list: to_curr,testing
-     * More details on the link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_payout
+     * @see More details on the @link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_payout
      * @return object|PayoutResponse
      * @throws ApiException
      * @throws Exception
@@ -117,7 +117,7 @@ interface ApiClientInterface
      * @param string $description Details for user about bill
      * @param array $additional_params (optional)
      * Keys list: to_curr,testing
-     * More details on the link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_payout_card
+     * @see More details on the @link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_payout_card
      * @return object|PayoutResponse
      * @throws ApiException
      * @throws Exception
@@ -136,7 +136,7 @@ interface ApiClientInterface
      * @param string $description Details for user about bill
      * @param array $additional_params (optional)
      * Keys list: testing
-     * More details on the link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_payout_crypto
+     * @see More details on the @link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/post_payout_crypto
      * @return object|PayoutResponse
      * @throws ApiException
      * @throws Exception
@@ -207,7 +207,7 @@ interface ApiClientInterface
      *
      * @param array $additional_params (optional)
      * Keys list: currency,begin,end,operation_type,show_testing
-     * More details on the link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/get_stats
+     * @see More details on the @link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/get_stats
      * @return object|StatisticResponse
      * @throws ApiException
      * @throws Exception
@@ -220,7 +220,7 @@ interface ApiClientInterface
      *
      * @param array $additional_params (optional)
      * Keys list: begin,end,status,payment_method,operation_type,limit,offset,show_testing
-     * More details on the link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/get_history
+     * @see More details on the @link https://app.swaggerhub.com/apis-docs/enfins.com/merchant_en/v1#/default/get_history
      * @return object|HistoryOperationsResponse
      * @throws ApiException
      * @throws Exception
