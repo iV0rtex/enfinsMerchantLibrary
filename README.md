@@ -29,16 +29,16 @@ Link for register like a partner - https://enfins.com/ru/partner/registration. T
 Create Api client and add your ident and secret key there.
 
 ```
-$secret_key = 'ARR9PXd9-sFNllCAJvRp';
-$ident = 'vxkDWYrrXg';
-$api = new ApiClient($ident,$secret_key,'https://qa.enfins.com:9000/v1');
+$secret_key = 'SECRET_KEY';
+$ident = 'IDENT';
+$api = new ApiClient($ident,$secret_key,'https://api.enfins.com/v1');
 ```
 
 Via ApiClient object you can send requests to the Enfins Api.
 
 ```
 try {
-    $createBillResponse = $api->createBill("UAH",200,"34235","create example bill",["testing"=>true]);
+    $createBillResponse = $api->createBill("UAH",200,"UNIQUE_MERCHANT_ORDER","create example bill",["testing"=>true]);
 
 } catch (ApiException $e) {
 
