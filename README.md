@@ -26,6 +26,16 @@ PHP 5.5 and later
 Before you can create a new Api client class instance you have to prepare and save your unique merchant ident and secret key in your merchant account settings.
 Link for register like a partner - https://enfins.com/ru/partner/registration. Then create your merchant there.
 
+Install composer in your project.
+
+```
+composer install
+```
+And download api client library
+
+```
+composer request enfins/api_client
+```
 Create Api client and add your ident and secret key there.
 
 ```
